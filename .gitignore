@@ -22,6 +22,9 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 
+## macOS Artifacts
+.DS_Store
+
 ## Obj-C/Swift specific
 *.hmap
 
@@ -47,6 +50,7 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+.swiftpm
 
 # CocoaPods
 #
