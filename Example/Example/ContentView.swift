@@ -14,14 +14,12 @@ struct ContentView: View {
             Button("Start Flow") {
                 Task {
                     try await HVCameraExterior.sharedInstance.startCaptureSession(
-                        settings: .init(),
-                        info: .init(
-                            firstTimeUser: true,
-                            jobID: 12345,
+                        settings: HVCameraSettings(),
+                        info: CaptureJobInformation(
                             clientIdentifier: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF",
-                            userEmail: "hello@example.com",
                             uploadSecret: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF",
-                            isTestJob: true
+                            jobID: 12345,
+                            userEmail: "hello@example.com"
                         )
                     )
                 }
