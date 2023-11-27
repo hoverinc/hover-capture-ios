@@ -4,60 +4,60 @@
 import PackageDescription
 
 let package = Package(
-    name: "HVCaptureSDK",
-    products: [
-        .library(
-            name: "HVCaptureSDK",
-            targets: ["HVCaptureSDK"]
-        ),
-    ],
-    targets: [
-        
-        // -- Public -- //
-        
-        .target(
-            name: "HVCaptureSDK",
-            dependencies: [
-                "_HVAVCamera",
-                "_HVCore",
-                "_HVCVPixelBufferHelper",
-                "_HVCameraExterior",
-                "ObjcExceptionBridging",
-                "_XCGLogger",
-            ]
-        ),
-        
-        // -- Internal -- //
-        
-        .binaryTarget(
-            name: "ObjcExceptionBridging",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/135908519.zip",
-            checksum: "4d62fc18fef099093f21720715b32091858636538a481ad9dd64dc7fcbdc66b5"
-        ),
-        .binaryTarget(
-            name: "_HVAVCamera",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/135908464.zip",
-            checksum: "7974838619a79b0a4c9169a7b3b10bbf70605f2148f92b9e410e9efbd5f87776"
-        ),
-        .binaryTarget(
-            name: "_HVCameraExterior",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/135908466.zip",
-            checksum: "f6184e2e56e066380c2d9cecc76edf6a02cee22c4719e68247a7aed83f6b9e75"
-        ),
-        .binaryTarget(
-            name: "_HVCore",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/135908516.zip",
-            checksum: "f0ff7917bf6fceeed06072e13d6fbd9961263b24f594dfc4d2041f907b9cc884"
-        ),
-        .binaryTarget(
-            name: "_HVCVPixelBufferHelper",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/135908517.zip",
-            checksum: "fc13cc77109e5e4ac53e46ad3c0c7960561d317b4af1ab0f225394d75cb8b2d1"
-        ),
-        .binaryTarget(
-            name: "_XCGLogger",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/135908518.zip",
-            checksum: "0508015a2ab47e8d5986bcd27b75ac2ad9acebdad3295bce30b0335925c6a5ed"
-        ),
-    ]
+	name: "HVCaptureSDK",
+	products: [
+		.library(
+			name: "HVCaptureSDK",
+			targets: ["HVCaptureSDK"]
+		),
+	],
+	targets: [
+		
+		// -- Public -- //
+		
+		.target(
+			name: "HVCaptureSDK",
+			dependencies: [
+				"ObjcExceptionBridging",
+				"_HVAVCamera",
+				"_HVCameraExterior",
+				"_HVCore",
+				"_HVCVPixelBufferHelper",
+				"_XCGLogger",
+			]
+		),
+		
+		// -- Internal -- //
+		
+		.binaryTarget(
+			name: "ObjcExceptionBridging",
+			url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/137675786.zip",
+			checksum: "706f0dc3f3cf06bb43315391ddd108a80d4f539ec51725b7b2184a588bd9a591"
+		),
+		.binaryTarget(
+			name: "_HVAVCamera",
+			url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/137675788.zip",
+			checksum: "5b90853c15d560ed7f2383b382aeb369aa62c9d0a5edf7285bc4108f05187fb5"
+		),
+		.binaryTarget(
+			name: "_HVCameraExterior",
+			url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/137675792.zip",
+			checksum: "9d6011e47d297c3c6cc413e87d00030eebc7cc4d03c9a338b60d62b88928f492"
+		),
+		.binaryTarget(
+			name: "_HVCore",
+			url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/137675854.zip",
+			checksum: "ad6fdcc99d2a5553f1f6b682d3378f73be00a7bda172948f5df22fe01a52a1e5"
+		),
+		.binaryTarget(
+			name: "_HVCVPixelBufferHelper",
+			url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/137675790.zip",
+			checksum: "096aaca9c90f02c3b6e7d1389d89d0306294cb813f8bed1e2bf07a3ff88bf9a8"
+		),
+		.binaryTarget(
+			name: "_XCGLogger",
+			url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/137675855.zip",
+			checksum: "ec941e4ddd4e89514a0fd38f7c8d34f79d7898d4d0b4ca13058c732e62507449"
+		),
+	]
 )
