@@ -31,33 +31,33 @@ let package = Package(
         
         .binaryTarget(
             name: "ObjcExceptionBridging",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138107368.zip",
-            checksum: "1657579daabf6db1caf41c3ce971b4a6da7cbcdcd07cc60cafc1767a846386bc"
+            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138108885.zip",
+            checksum: "580ce64d842b84c7bcb3f8a27a279877632715c105525198b5d62dff5aabdf49"
         ),
         .binaryTarget(
             name: "_HVAVCamera",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138107369.zip",
-            checksum: "67ee62f18f6dae08a8ef8610a9f8959e2ab846644051cc9dd8f0d8d1199c05fd"
+            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138108889.zip",
+            checksum: "c661a2335a78994183e34e34d3b9dc27f0bd7d4e2eca50e299a2dc612d672d13"
         ),
         .binaryTarget(
             name: "_HVCameraExterior",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138107371.zip",
-            checksum: "5769bee741a59a107be777c9625625cee9da9ce228aa711fcaed672f74249209"
+            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138108892.zip",
+            checksum: "0a258bf99459c4a2cae6ad13e06d2b317883331fd7bff3da2351d93dfa242eb3"
         ),
         .binaryTarget(
             name: "_HVCore",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138107386.zip",
-            checksum: "29580da78e2cd85750806f78e429ec1f3598a3518f87ae973e6a8084ac56cda4"
+            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138108918.zip",
+            checksum: "c87812c7613baeaf57555a06820a25d73cf8295274e17cb0be6d6c148babde64"
         ),
         .binaryTarget(
             name: "_HVCVPixelBufferHelper",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138107370.zip",
-            checksum: "068af975bb87351bb2a004b76eb2046ff5aa4f1506fb210a05fdda750d7635d1"
+            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138108890.zip",
+            checksum: "31d14bfe3aab3c05911822e7d35d38ecb92ac4013e1ce6dc1dc5a40772fde9ff"
         ),
         .binaryTarget(
             name: "_XCGLogger",
-            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138107391.zip",
-            checksum: "7fe218864530fbf085f7947535d3d0b8dfe005e0eaa524c9f8a62ebbc851816d"
+            url: "https://api.github.com/repos/hoverinc/hover-capture-ios/releases/assets/138108920.zip",
+            checksum: "6193517b1a0e2346f4120bbf3f4132f01a637c67908a90ea5c77d221a396c492"
         ),
     ]
 )
