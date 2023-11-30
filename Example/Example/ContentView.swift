@@ -16,10 +16,10 @@ struct ContentView: View {
                     try await HVCameraExterior.sharedInstance.startCaptureSession(
                         settings: HVCameraSettings(),
                         info: CaptureJobInformation(
-                            clientIdentifier: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF",
-                            uploadSecret: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF",
+                            firstTimeUser: true,
                             jobID: 12345,
-                            userEmail: "hello@example.com"
+                            clientIdentifier: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF",
+                            uploadSecret: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF"
                         )
                     )
                 }

@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4B7F0E72B17F82100A44315 /* HVCaptureSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B4B7F0E62B17F82100A44315 /* HVCaptureSDK */; };
+		B4B7F0EA2B17F88000A44315 /* HVCaptureSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B4B7F0E92B17F88000A44315 /* HVCaptureSDK */; };
 		B4C6AE932AF546B200A68766 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6AE922AF546B200A68766 /* ExampleApp.swift */; };
 		B4C6AE952AF546B200A68766 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6AE942AF546B200A68766 /* ContentView.swift */; };
 		B4C6AE972AF546B300A68766 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4C6AE962AF546B300A68766 /* Assets.xcassets */; };
 		B4C6AE9B2AF546B300A68766 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4C6AE9A2AF546B300A68766 /* Preview Assets.xcassets */; };
-		B4C6AEA42AF5473A00A68766 /* HVCaptureSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B4C6AEA32AF5473A00A68766 /* HVCaptureSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +22,6 @@
 		B4C6AE962AF546B300A68766 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B4C6AE982AF546B300A68766 /* Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Example.entitlements; sourceTree = "<group>"; };
 		B4C6AE9A2AF546B300A68766 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B4C6AEA12AF546FD00A68766 /* hover-capture-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "hover-capture-ios"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,7 +29,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4C6AEA42AF5473A00A68766 /* HVCaptureSDK in Frameworks */,
+				B4B7F0EA2B17F88000A44315 /* HVCaptureSDK in Frameworks */,
+				B4B7F0E72B17F82100A44315 /* HVCaptureSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,7 +40,6 @@
 		B4C6AE862AF546B200A68766 = {
 			isa = PBXGroup;
 			children = (
-				B4C6AEA12AF546FD00A68766 /* hover-capture-ios */,
 				B4C6AE912AF546B200A68766 /* Example */,
 				B4C6AE902AF546B200A68766 /* Products */,
 				B4C6AEA22AF5473A00A68766 /* Frameworks */,
@@ -98,7 +98,8 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				B4C6AEA32AF5473A00A68766 /* HVCaptureSDK */,
+				B4B7F0E62B17F82100A44315 /* HVCaptureSDK */,
+				B4B7F0E92B17F88000A44315 /* HVCaptureSDK */,
 			);
 			productName = Example;
 			productReference = B4C6AE8F2AF546B200A68766 /* Example.app */;
@@ -128,6 +129,9 @@
 				Base,
 			);
 			mainGroup = B4C6AE862AF546B200A68766;
+			packageReferences = (
+				B4B7F0E82B17F88000A44315 /* XCRemoteSwiftPackageReference "hover-capture-ios" */,
+			);
 			productRefGroup = B4C6AE902AF546B200A68766 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -377,9 +381,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		B4B7F0E82B17F88000A44315 /* XCRemoteSwiftPackageReference "hover-capture-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hoverinc/hover-capture-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		B4C6AEA32AF5473A00A68766 /* HVCaptureSDK */ = {
+		B4B7F0E62B17F82100A44315 /* HVCaptureSDK */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = HVCaptureSDK;
+		};
+		B4B7F0E92B17F88000A44315 /* HVCaptureSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B4B7F0E82B17F88000A44315 /* XCRemoteSwiftPackageReference "hover-capture-ios" */;
 			productName = HVCaptureSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
