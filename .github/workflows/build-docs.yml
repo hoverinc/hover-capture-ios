@@ -25,9 +25,9 @@ jobs:
         PAGE_DIR="tmp/site"
         mkdir -p ${PAGE_DIR}
 
-        # set up the netrc file so we can access HVMobileML's binary
-        touch $HOME/.netrc
-        echo "machine api.github.com login hover-devops password ${{ secrets.HVMOBILEML_PAT }}" > $HOME/.netrc
+        # set up the netrc file so we can access HVMobileML's binary -- do we need this?
+        #touch $HOME/.netrc
+        #echo "machine api.github.com login hover-devops password ${{ secrets.HVMOBILEML_PAT }}" > $HOME/.netrc
 
         # compile the DocC archive(s)
         xcodebuild docbuild \
@@ -35,7 +35,9 @@ jobs:
                    -destination generic/platform=iOS \
                    -derivedDataPath "${TMP_BUILDIR}"
         # collect the generated docarchive(s)
-        cp -R $(find ${TMP_BUILDIR} -type d -name "*.doccarchive") "${DOCARCHIVE_DIR}/."
+        # cp -R $(find ${TMP_BUILDIR} -type d -name "*.doccarchive") "${DOCARCHIVE_DIR}/."
+        # TODO: can / should we use the bundled doccarchive?
+        cp -R $(find . -type d -name "*.doccarchive") "${DOCARCHIVE_DIR}/."
         # NOTE: this command seems to wipe out the path specified by --output-path, so use a tmp dir that you don't mind getting deleted (i.e. don't use _site as the output directory directly)
         $(xcrun --find docc) process-archive transform-for-static-hosting "${DOCARCHIVE_DIR}/${SCHEME}.doccarchive" --hosting-base-path "/" --output-path "${PAGE_DIR}"
 
