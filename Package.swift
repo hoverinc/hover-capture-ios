@@ -24,7 +24,8 @@ let package = Package(
                 "_HVCameraExterior",
                 "ObjcExceptionBridging",
                 "_XCGLogger",
-            ]
+            ],
+            path: "Sources/HVCaptureSDK"
         ),
         
         // -- Internal -- //
