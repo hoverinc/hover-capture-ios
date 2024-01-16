@@ -2,7 +2,7 @@ import SwiftUI
 import HVCaptureSDK
 
 @main
-struct binarysdkexampleApp: App {
+struct BinarySDKExampleApp: App {
 
     init() {
         let params = HVCameraExteriorParameters()
