@@ -24,7 +24,8 @@ let package = Package(
                 "_HVCore",
                 "_HVCVPixelBufferHelper",
                 "_XCGLogger",
-            ]
+            ],
+            path: "Sources/HVCaptureSDK"
         ),
         
         // -- Internal -- //

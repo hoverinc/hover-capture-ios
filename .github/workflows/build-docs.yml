@@ -1,0 +1,73 @@
+name: Generate SDK Docs
+on: 
+  push:
+    branches: ['main']
+
+jobs:
+  build-docc:
+    runs-on: macos-13
+    timeout-minutes: 5
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
+
+    - name: Generate DocC docs 
+      run: |
+        SCHEME="HVCaptureSDK"
+
+        # have derivedData outside of project dir to avoid SPM cache issue? https://forums.swift.org/t/xcode-and-swift-package-manager/44704/5
+        TMP_BUILDIR="$HOME/doc-build"
+        mkdir -p ${TMP_BUILDIR}
+        DOCARCHIVE_DIR="tmp/docs"
+        mkdir -p ${DOCARCHIVE_DIR}
+        PAGE_DIR="tmp/site"
+        mkdir -p ${PAGE_DIR}
+
+        # compile the DocC archive(s)
+        xcodebuild docbuild \
+                   -scheme "${SCHEME}" \
+                   -destination generic/platform=iOS \
+                   -derivedDataPath "${TMP_BUILDIR}"
+        # collect the generated docarchive(s)
+        cp -R $(find ${TMP_BUILDIR} -type d -name "*.doccarchive") "${DOCARCHIVE_DIR}/."
+        # NOTE: this command seems to wipe out the path specified by --output-path, so use a tmp dir that you don't mind getting deleted (i.e. don't use _site as the output directory directly)
+        $(xcrun --find docc) process-archive transform-for-static-hosting "${DOCARCHIVE_DIR}/${SCHEME}.doccarchive" --hosting-base-path "/" --output-path "${PAGE_DIR}"
+
+        # Copy DocC Output to Jekyll Site
+        mkdir -p _site/
+        cp -R "${PAGE_DIR}"/* _site/.
+        rm -rf "${TMP_BUILDIR}"
+
+    - name: Fix GH-pages permissions
+      run: |
+        # from https://github.com/actions/upload-pages-artifact
+        chmod -v -R +rX "_site/" | while read line; do
+          echo "::warning title=Invalid file permissions automatically fixed::$line"
+        done
+
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v2
+
+  # Deploy github pages job
+  deploy:
+    needs: build-docc
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: macos-13
+    timeout-minutes: 5
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

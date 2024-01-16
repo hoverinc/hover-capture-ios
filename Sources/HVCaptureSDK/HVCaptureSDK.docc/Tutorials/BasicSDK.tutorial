@@ -1,0 +1,85 @@
+@Tutorial(time: 30) {
+    @Intro(title: "Creating an app from scratch using the HOVER Capture SDK") {
+        This tutorial guides you through creating a new, barebones app from scratch that uses the HOVER Capture SDK's binary package. 
+        
+        @Image(source: hvcamera-icon, alt: "HOVER Capture SDK logo")
+    }
+    
+    @Section(title: "Creating the Project") {
+        @ContentAndMedia {
+            Create and configure an XCode project.
+            
+            @Image(source: hover-logo, alt: "HOVER logo")
+        }
+        
+        @Steps {
+            @Step {
+                Create a new project using the iOS App template.
+                
+                @Image(source: tutorial-s01-01, alt: "Screenshot showing a new iOS app being created from XCode")
+            }
+            
+            @Step {
+                Select "SwiftUI" from the Interface pop-up menu, fill in the rest of the app template fields, then click Next. Choose a location to save the project to.
+                
+                @Image(source: tutorial-s01-02, alt: "Screenshot showing the iOS app being configured as a SwftUI project")
+            }
+            
+            @Step {
+                Add the SDK as a SPM dependency, see e.g. https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app
+                The SDK's SPM package URL is https://github.com/hoverinc/hover-capture-ios.
+                
+                If the repo is private, you'll need a valid github PAT to access it. You'll be prompted to enter it when adding the package to your app. 
+                
+                @Image(source: tutorial-s01-03, alt: "Screenshow showing how to add the `hover-capture-ios` package as a dependency")
+            }
+            
+            @Step {
+                Add `NSCameraUsageDescription` (required) and `NSLocationUsageDescription` (optional) to your `Info.plist`
+                
+                @Image(source: tutorial-s01-04, alt: "Screenshow showing the project Info.plist fields")
+            }
+        }
+    }
+    
+    @Section(title: "Integrating the SDK") {
+        @ContentAndMedia {
+            Add the HOVER Capture SDK to your app
+            
+            @Image(source: hover-logo, alt: "HOVER logo")
+            
+        }
+        
+        @Steps {
+            @Step {
+                import the SDK `import HVCaptureSDK`
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-01)
+            }
+            
+            @Step {
+                Initialize the SDK early on in your app's lifecycle
+                
+                @Code(name: "App.swift", file: tutorial-sdk-code-02)
+            }
+            
+            @Step {
+                Collect any user inputs you need / ingest any data from an API / hardcode mocked values for the HOVER job and auth information
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-03)
+            }
+            
+            @Step {
+                start the capture session
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-04)
+            }
+            
+            @Step {
+                Clean up the capture session / perform any post-capture logic. You can also prematruely cancel the capture session. 
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-05)
+            }
+        }
+    }
+}
