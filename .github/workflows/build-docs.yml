@@ -25,6 +25,9 @@ jobs:
         PAGE_DIR="tmp/site"
         mkdir -p ${PAGE_DIR}
 
+        touch $HOME/.netrc
+        echo "machine api.github.com login hover-devops password ${{ secrets.DEVOPS_PAT }}" > $HOME/.netrc
+
         # compile the DocC archive(s)
         xcodebuild docbuild \
                    -scheme "${SCHEME}" \
