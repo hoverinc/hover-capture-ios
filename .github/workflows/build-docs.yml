@@ -2,6 +2,8 @@ name: Generate SDK Docs
 on: 
   push:
     branches: ['main']
+  pull_request:
+    types: [opened]
 
 jobs:
   build-docc:
