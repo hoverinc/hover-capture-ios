@@ -1,0 +1,107 @@
+@Tutorial(time: 15) {
+    @Intro(title: "Customizing SDK Theming") {
+        Learn how to customize aspects of the HOVER Capture SDK UI appearance
+        
+        @Image(source: hover-graph-logo, alt: "HOVER logo as a graph")
+    }
+    
+    @Section(title: "Get Familiar with HVTheme") {
+        @ContentAndMedia {
+            The `HVTheme` struct describes how certain visual elements should look. It allows the host application to customize various SDK-wide appearances, such as colors, button styles and appearances, and icons. 
+            There are additional configurations for specific screens in the SDK, such as the permission screens, tutorial pages, and capture success screen. The text content and icons can be customized.  
+        }
+        
+        @Steps {
+            @Step {
+                The ``HVTheme`` constructor has a lot of configuration options, all of which are optional. Values that aren't specified fall back to the default theme values, which is the HOVER theme.
+                Certain parameters have interactions, so for example, if the ``HVTheme/primaryButtonBackground`` parameter isn't specified, then we'll build one out of a combination of the HVTheme `primary`, `secondary`, and `surface` parameters.  
+                
+                @Code(name: "HVTheme.swift", file: tutorial-hvtheme-code-01)
+            }
+            
+            @Step {
+                For 'active' elements (i.e. ones that have different states), you can specify how the element should appear in each state. Generally, we have 3 states, `active`, `pressed`, and `inactive`.
+                `active` indicates the element is *able* to be interacted with, `pressed` indicates the element is *being* interacted with, and `inactive` indicates the element is *unable* to be interacted with.
+                We can specify different colors for each of these 3 states with ``HVColorStateList``, in order to better distinguish them to the user. 
+                
+                @Code(name: "HVTheme.swift", file: tutorial-hvtheme-code-02)
+            }
+            
+            @Step {
+                There are multiple parameters for customizing buttons, as well as the option of having shadows for certain buttons (secondary button themes). 
+                
+                @Image(source: t2p1-button-types, alt: "screenshot showing a few button types")
+            }
+        }
+    }
+    
+    @Section(title: "Define and Use a Custom HVTheme") {
+        
+        @ContentAndMedia {
+            The host application can override various aspects of the default theme to customize the appearance of the SDK. 
+            In the following steps, we'll override various parts of the `HVTheme` to see the effect on different screens.
+            Note that it's up to the theme creator to ensure the themes provide a good user experience, e.g. don't put white text on a white background unless you hate your users. 
+            
+            @Image(source: tutorial-s02-default, alt: "Default Property Screen")
+        }
+        @Steps {
+            @Step {
+                Create a custom `HVTheme` object and apply it in the capture session settings. 
+                We can specify different colors to use for different visual elements. 
+                Take a minute to note how the different colors show up on the various screens. 
+                We are specifying a subset of colors in this step, but no icons or direct button styles yet. 
+            
+                @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-05) {
+                    @Image(source: t2-s1-colors, alt: "Screens customized with colors")
+                }
+            }
+            
+            @Step {
+                Color customization is reflected in the tutorial screens as well. 
+            
+                @Image(source: t2-s2-tutorial, alt: "Tutorial screens with color customization")
+            }
+            
+            @Step {
+                In this step, we specify some of the customizable icons. 
+                The icon for the button to navigate to the previous screen is specified with ``HVTheme/toolbarBack``, and we have it set to `Image(systemName: "paperplane")` in this step.
+                The icon for the success screen is specified with ``HVTheme/successIcon``, set to `Image(systemName: "checkmark.seal.fill")` in this step. 
+                The icon for the camera permission denied screen is ``HVTheme/toolbarClose``, set to `Image(systemName: "heart.slash")` here. 
+                The icon for top toolbar banner is specified with ``HVTheme/toolbarLogo``, and is specified as a `View`.
+                Applications can use arbitrary custom images by supplying them in the app bundle, downloading them from the internet at runtime, etc. We simply used system images here for simplicity's sake.  
+            
+                @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-06) {
+                    @Image(source: t2-s3-icons, alt: "Screens with configured icons")
+                }
+            }
+            
+            @Step {
+                In this step, we configure parameters specific to the capture grid screen. 
+                Note that we already have a degree of customization applied to the grid screen by way of e.g. ``HVTheme/primary`` and ``HVTheme/subtleElements``, but the parameters specified in this step give a more direct control of the specific grid elements. 
+                
+                @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-07) {
+                    @Image(source: t2-s4-gridscreen, alt: "Capture grid screen customization")
+                }
+            }
+
+            @Step {
+                Additionally, certain screens can have their text customized based on their strings provided in ``HVTheme``.
+                Often the messages consist of 3 components: the header, the message body, and a message to display on a button that the user can press.
+                
+                @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-08) {
+                    @Image(source: t2-s5-text, alt: "Text message screen customization")
+                }
+            }
+            
+            @Step {
+                It's possible to customize specifics of the primary and secondary button appearance.
+                Note how the `Continue` button changes appearance as the capture proceeds -- at the start when no photos have been taken, it's disabled and clicking it changes it's appearance to match its `inactive` theme. 
+                Once the minimum (4) number of photos have been taken, the button becomes `active` and its `pressed` appearance changes as well to match the given ``HVTheme``. 
+                
+                @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-09) {
+                    @Image(source: t2-s6-buttons, alt: "Button customization")
+                }
+            }
+        }
+    }
+}

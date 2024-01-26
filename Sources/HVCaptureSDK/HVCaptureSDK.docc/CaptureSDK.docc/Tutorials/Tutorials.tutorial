@@ -1,0 +1,25 @@
+@Tutorials(name: "HOVER Capture SDK") {
+    
+    @Intro(title: "Meet the HOVER Capture SDK") {
+        Embed the HOVER Capture experience directly into your application. 
+        Get started with the HOVER Capture SDK by building a demo application.  
+        
+        @Image(source: hvcamera-icon, alt: "HOVER Capture SDK logo")
+    }
+    
+    @Chapter(name: "Capture SDK Essentials") {
+        Integrate the HOVER Capture SDK in an iOS application
+        
+        @Image(source: hvcamera-icon, alt: "HOVER Capture SDK logo")
+        
+        @TutorialReference(tutorial: "doc:BasicSDK")
+    }
+    
+    @Chapter(name: "Customizing Capture SDK Appearance") {
+        Customize aspects of the Capture SDK UI        
+        
+        @Image(source: hvcamera-icon, alt: "HOVER Capture SDK logo")
+        
+        @TutorialReference(tutorial: "doc:HVThemeCustomization")
+    }
+}

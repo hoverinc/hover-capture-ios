@@ -1,0 +1,94 @@
+@Tutorial(time: 30) {
+    
+    @Intro(title: "Creating an iOS application from scratch using the HOVER Capture SDK") {
+        This tutorial guides you through creating a new, barebones iOS app from scratch that uses the HOVER Capture SDK's binary package. 
+        
+        @Image(source: hover-graph-logo, alt: "HOVER logo as a graph")
+    }
+    
+    @Section(title: "Creating the Project") {
+        @ContentAndMedia {
+            Create and configure an XCode project.
+            
+            @Image(source: hover-logo, alt: "HOVER logo")
+        }
+        
+        @Steps {
+            @Step {
+                Create a new project using the iOS App template.
+                
+                @Image(source: tutorial-s01-01, alt: "Screenshot showing a new iOS app being created from XCode")
+            }
+            
+            @Step {
+                Select "SwiftUI" from the Interface pop-up menu, fill in the rest of the app template fields, then click Next. Choose a location to save the project to.
+                
+                @Image(source: tutorial-s01-02, alt: "Screenshot showing the iOS app being configured as a SwftUI project")
+            }
+            
+            @Step {
+                Add the SDK as a SPM dependency, see e.g. https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app
+                The SDK's SPM package URL is https://github.com/hoverinc/hover-capture-ios.
+                
+                If the repo is private, you'll need a valid github PAT to access it. You'll be prompted to enter it when adding the package to your app. 
+                
+                @Image(source: tutorial-s01-03, alt: "Screenshot showing how to add the `hover-capture-ios` package as a dependency")
+            }
+            
+            @Step {
+                Add `NSCameraUsageDescription` (required) and `NSLocationUsageDescription` (optional) to your `Info.plist`
+                
+                @Image(source: tutorial-s01-04, alt: "Screenshot showing the project Info.plist fields")
+            }
+        }
+    }
+    
+    @Section(title: "Integrating the SDK") {
+        @ContentAndMedia {
+            Add the HOVER Capture SDK to your app
+            
+            @Image(source: hover-logo, alt: "HOVER logo")
+            
+        }
+        
+        @Steps {
+            @Step {
+                Import the SDK `import HVCaptureSDK`
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-01)
+            }
+            
+            @Step {
+                Initialize the SDK early on in your app's lifecycle (or at least, prior to calling `startCaptureSession`). It's possible to set certain SDK-wide parameters in the `HVCameraExteriorParameters` structure at this step. 
+                
+                @Code(name: "App.swift", file: tutorial-sdk-code-02)
+            }
+            
+            @Step {
+                Collect the inputs you need to start the capture session. In general, when starting a new Job's capture session, you need a valid Job ID and token. These must be obtained from the HOVER backend separately.
+
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-03)
+            }
+            
+            @Step {
+                Start the Capture Session and Capture Flow. Note that both execute asynchronously, but we need to start the Capture Session prior to starting the Capture Flow. Conceptually, if the Capture Session is the construct for managing data acquisition for the current `Job`, the Capture Flow is the corresponding UI.
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-04)
+            }
+            
+            @Step {
+                Clean up the Capture Session and perform any post-capture logic. You can also prematurely cancel the Capture Session by calling `cancel` on its parent `Task`, and the Capture Flow and Capture Session will be stopped and a `HVSessionError.UserCancelled` exception will be thrown.  
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-05)
+            }
+            
+            @Step {
+                You can monitor the `Job`'s `JobStatus` during runtime by requesting a publisher for a given `JobIdentifier`. You can then monitor the state transitions for the `Job` and perform any necessary actions based on them.
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-06)
+            }
+            
+            
+        }
+    }
+}
