@@ -2,7 +2,7 @@ import HVCaptureSDK
 import SwiftUI
 
 extension HVTheme {
-    public static let tutorialTheme = HVTheme(
+    static let tutorialTheme = HVTheme(
         primary: .green,
         onPrimary: .black,
         primaryContainer: .blue,
@@ -15,17 +15,21 @@ extension HVTheme {
         surface: .pink,
         onSurface: .red,
         textPrimary: .black,
-        textSecondary: Color(uiColor: .darkGray),
-        textPrimaryDark: Color(uiColor: .lightGray),
-        footerCTABackground: .gray,
-        toolbarBack: Image(systemName: "paperplane"),
-        toolbarClose: Image(systemName: "heart.slash"),
+        textSecondary:
+            Color(uiColor: .darkGray),
+        textPrimaryDark: .gray,
+        footerCTABackground:
+            Color(uiColor: .lightGray),
+        toolbarBack:
+            Image(systemName: "paperplane"),
+        toolbarClose:
+            Image(systemName: "heart.slash"),
         permissionCameraHeader:
             "Camera permissions header is customizable",
         permissionCameraBody:
             "Camera permissions body is customizable",
         permissionCameraConfirm:
-            "Camera permissions button is customizable",
+            "Customizable Camera button",
         permissionCameraDeniedButtonText:
             "Camera permissions denied button is customizable",
         permissionLocationHeader:
@@ -33,17 +37,19 @@ extension HVTheme {
         permissionLocationBody:
             "Location permissions body is customizable",
         permissionLocationConfirm:
-            "Location permissions button is customizable",
+            "Customizable Location button",
         galleryDeleteConfirmHeader:
             "Photo gallery delete header is customizable",
         galleryDeleteConfirmBody:
-            "Photo gallery delete confirmation button is customizable",
+            "Customizable delete button",
         successIcon: Image(systemName: "checkmark.seal.fill"),
+        successHeader: "Success screen header is customizable",
         successMessage: "Success screen message is customizable",
         successNextSteps: "Success screen next steps are customizable",
         cameraCaptureBackground: .teal,
         toolbarBackground: .orange.opacity(0.3),
         toolbarHeader: .purple,
+        toolbarIcon: .mint,
         textLink: .yellow,
         illustrationMainStroke: .white,
         illustrationSubStroke: .black,
@@ -51,7 +57,7 @@ extension HVTheme {
         gridItemBackground: .gray,
         gridItemBorderRadius: 30,
         primaryButtonBackground:
-            HVColorStateList(active: .init(uiColor: .lightGray), pressed: .gray, inactive: .init(uiColor: .darkGray)),
+            HVColorStateList(active: .black, pressed: .gray, inactive: .init(uiColor: .darkGray)),
         primaryButtonText:
             HVColorStateList(active: .red, pressed: .green, inactive: .blue),
         primaryButtonShadowBackground:
@@ -65,11 +71,7 @@ extension HVTheme {
             HVColorStateList(active: .green, pressed: .mint, inactive: .teal),
         secondaryButtonStrokeColor:
             HVColorStateList(active: .blue, pressed: .teal, inactive: .brown),
-        secondaryButtonStrokeWidth: 10,
-        toolbarLogo: {
-            AnyView(Image(systemName: "wrench.and.screwdriver.fill")
-                .padding(.bottom, 12))
-        }
+        secondaryButtonStrokeWidth: 10
     )
 }
 

@@ -2,7 +2,7 @@ import HVCaptureSDK
 import SwiftUI
 
 extension HVTheme {
-    public static let tutorialTheme = HVTheme(
+    static let tutorialTheme = HVTheme(
         primary: .green,
         onPrimary: .black,
         primaryContainer: .blue,
@@ -15,25 +15,28 @@ extension HVTheme {
         surface: .pink,
         onSurface: .red,
         textPrimary: .black,
-        textSecondary: Color(uiColor: .darkGray),
-        textPrimaryDark: Color(uiColor: .lightGray),
-        footerCTABackground: .gray,
-        toolbarBack: Image(systemName: "paperplane"),
-        toolbarClose: Image(systemName: "heart.slash"),
-        successIcon: Image(systemName: "checkmark.seal.fill"),
+        textSecondary:
+            Color(uiColor: .darkGray),
+        textPrimaryDark: .gray,
+        footerCTABackground:
+            Color(uiColor: .lightGray),
+        toolbarBack:
+            Image(systemName: "paperplane"),
+        toolbarClose:
+            Image(systemName: "heart.slash"),
+        successIcon:
+            Image(systemName: "checkmark.seal.fill"),
         cameraCaptureBackground: .teal,
-        toolbarBackground: .orange.opacity(0.3),
+        toolbarBackground:
+                .orange.opacity(0.3),
         toolbarHeader: .purple,
+        toolbarIcon: .mint,
         textLink: .yellow,
         illustrationMainStroke: .white,
         illustrationSubStroke: .black,
         gridItemBorder: .purple,
         gridItemBackground: .gray,
-        gridItemBorderRadius: 30,
-        toolbarLogo: {
-            AnyView(Image(systemName: "wrench.and.screwdriver.fill")
-                .padding(.bottom, 12))
-        }
+        gridItemBorderRadius: 30
     )
 }
 

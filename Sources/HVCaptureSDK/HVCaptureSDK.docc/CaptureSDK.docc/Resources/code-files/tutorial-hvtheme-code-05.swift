@@ -2,7 +2,7 @@ import HVCaptureSDK
 import SwiftUI
 
 extension HVTheme {
-    public static let tutorialTheme = HVTheme(
+    static let tutorialTheme = HVTheme(
         primary: .green,
         onPrimary: .black,
         primaryContainer: .blue,
@@ -15,12 +15,16 @@ extension HVTheme {
         surface: .pink,
         onSurface: .red,
         textPrimary: .black,
-        textSecondary: Color(uiColor: .darkGray),
-        textPrimaryDark: Color(uiColor: .lightGray),
-        footerCTABackground: .gray,
+        textSecondary:
+            Color(uiColor: .darkGray),
+        textPrimaryDark: .gray,
+        footerCTABackground:
+            Color(uiColor: .lightGray),
         cameraCaptureBackground: .teal,
-        toolbarBackground: .orange.opacity(0.3),
+        toolbarBackground:
+                .orange.opacity(0.3),
         toolbarHeader: .purple,
+        toolbarIcon: .mint,
         textLink: .yellow
     )
 }

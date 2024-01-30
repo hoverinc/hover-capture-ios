@@ -37,6 +37,7 @@ struct HVTheme {
         galleryDeleteConfirmHeader: String? = nil,
         galleryDeleteConfirmBody: String? = nil,
         successIcon: Image? = nil,
+        successHeader: String? = nil,
         successMessage: String? = nil,
         successNextSteps: String? = nil,
         cameraCaptureBackground: Color? = nil,
@@ -57,8 +58,7 @@ struct HVTheme {
         secondaryButtonText: HVColorStateList? = nil,
         secondaryButtonShadowBackground: HVColorStateList? = nil,
         secondaryButtonStrokeColor: HVColorStateList? = nil,
-        secondaryButtonStrokeWidth: CGFloat? = nil,
-        toolbarLogo: (() -> AnyView)? = nil
+        secondaryButtonStrokeWidth: CGFloat? = nil
     ) {
         // ...
     }
