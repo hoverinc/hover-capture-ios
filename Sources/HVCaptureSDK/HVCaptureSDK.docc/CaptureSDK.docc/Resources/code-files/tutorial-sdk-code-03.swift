@@ -11,7 +11,6 @@ struct ContentView: View {
         jobInfo = CaptureJobInformation(
             firstTimeUser: true,
             identifier: jobIdentifier,
-            clientIdentifier: UUID().uuidString,
             uploadSecret: "?")
         settings = HVCameraSettings()
     }

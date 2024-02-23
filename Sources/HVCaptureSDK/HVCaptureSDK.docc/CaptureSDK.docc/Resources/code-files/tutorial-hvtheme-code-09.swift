@@ -89,7 +89,6 @@ struct ContentView: View {
                 let jobInfo = CaptureJobInformation(
                     firstTimeUser: true,
                     identifier: JobIdentifier(jobID: 42, localID: UUID()),
-                    clientIdentifier: "String",
                     uploadSecret: "String")
                 var settings = HVCameraSettings()
                 settings.theme = .tutorialTheme
