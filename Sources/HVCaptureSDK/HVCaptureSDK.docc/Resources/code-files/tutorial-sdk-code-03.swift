@@ -7,7 +7,11 @@ struct ContentView: View {
     var settings: HVCameraSettings
 
     init() {
-        jobInfo = CaptureJobInformation(firstTimeUser: true, jobID: 42, clientIdentifier: "hello", userEmail: "goodbye", uploadSecret: "?", isTestJob: true)
+        let jobIdentifier = JobIdentifier(jobID: 42)
+        jobInfo = CaptureJobInformation(
+            firstTimeUser: true,
+            identifier: jobIdentifier,
+            uploadSecret: "?")
         settings = HVCameraSettings()
     }
 
