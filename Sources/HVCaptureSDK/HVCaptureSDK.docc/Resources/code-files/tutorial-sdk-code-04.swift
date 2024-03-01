@@ -7,7 +7,11 @@ struct ContentView: View {
     var settings: HVCameraSettings
 
     init() {
-        jobInfo = CaptureJobInformation(firstTimeUser: true, jobID: 42, clientIdentifier: "hello", userEmail: "goodbye", uploadSecret: "?", isTestJob: true)
+        let jobIdentifier = JobIdentifier(jobID: 42)
+        jobInfo = CaptureJobInformation(
+            firstTimeUser: true,
+            identifier: jobIdentifier,
+            uploadSecret: "?")
         settings = HVCameraSettings()
     }
 
@@ -22,6 +26,7 @@ struct ContentView: View {
             Task {
                 do {
                     try await HVCameraExterior.sharedInstance.startCaptureSession(settings: settings, info: jobInfo)
+                    try await HVCameraExterior.sharedInstance.startCaptureFlow()
                 } catch let error as HVSessionError {
                     // maybe handle our known errors here
                     switch error.kind {

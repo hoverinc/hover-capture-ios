@@ -16,12 +16,12 @@ Initialize the SDK, create a capture session and begin the capture flow UI.
 
 ## Overview
 
-The SDK is akin to an embedded app within a host app. It will run and attach its own `View`s to the `ViewController`, and run as a self-contained black box until the capture session is complete.
+The SDK is akin to an embedded app within a host app. It will run and attach its own `View`s to the `ViewController`, and run as a self-contained black box until the capture session is complete. 
 This article will walk through the steps required to use the SDK within a host app.
 
 ### Initializing the SDK
 
-The SDK should be initialized as early as possible in the app lifecycle. This is because the SDK does some background work to set up required structures and upload any remaining captured data from past jobs that have yet to complete.
+The SDK should be initialized as early as possible in the app lifecycle. This is because the SDK does some background processing to set up required structures and upload any remaining captured data from past jobs that have yet to complete.
 As such, the SDK should (ideally) be initialized in host application’s `applicationDidFinishLaunching` method, so that the SDK can continue uploading any files that remain to be uploaded. This helps expedite 3D model generation, as we need all the captured images and metadata to begin the 3D reconstruction process.
 
 ```swift
@@ -36,9 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
+While running this in `applicationDidFinishLaunching` would be ideal, at a minimum it should be run at some point prior to starting a capture session.  
+
 ### Creating a Capture Session
 
-The host app can launch the SDK in any way it sees fit, as long as there is an active ViewController somewhere in the app. Here is one example using SwiftUI of launching the SDK capture flow on a button click:
+The host app can launch the SDK in any way it sees fit, as long as there is an active `ViewController` running somewhere in the app. Here is a minimal example of launching the SDK capture flow on a button click using `SwiftUI`:
 
 ```swift
 import HVCamera
@@ -55,23 +57,12 @@ struct FooView: View {
             let captureTask = Task {
                 do {
                     try await HVCameraExterior.sharedInstance.startCaptureSession(settings: sessionSettings, info: jobInfo)
+                    try await HVCameraExterior.sharedInstance.startCaptureFlow()
                 } catch let error as HVSessionError {
-                    // maybe handle our known errors here
-                    switch error.kind {
-                    case .UserCancelled:
-                        print("User cancelled capture flow")
-                    case .FilesystemUnavailable:
-                        print("File system is not writable?")
-                    case .SessionCreationFailed:
-                        print("Could not create capture session")
-                    case .ViewControllerMissing:
-                        print("View Controller absent")
-                    case .Unknown(let errorMsg):
-                        print("unknown error \(errorMsg)")
-                    }
+                    // TODO: handle the known errors here
                     print("Known capture flow error: \(error.localizedDescription)")
                 } catch {
-                    // unknown error, who knows what to do
+                    // TODO: handle unknown errors, who knows what to do
                     print("Unknown Capture Flow Error: \(error.localizedDescription)")
                 }
                 captureSessionCompleted()
@@ -85,16 +76,17 @@ struct FooView: View {
 }
 ```
 
-Note that the SDK executed asynchronously, and the task that calls ``startCaptureSession`` will suspend until the capture flow completes. As such, there's a very linear flow to interacting with the SDK, and once the call's `await` returns, the host app knows the SDK's capture session is complete (as seen with the `captureSessionCompleted` function above).
+Note that the SDK executes asynchronously, and the task that calls ``startCaptureSession`` will suspend until the capture flow completes. As such, there's a very linear flow to interacting with the SDK, and once the call's `await` returns, the host app knows the SDK's capture session is complete (as seen with the `captureSessionCompleted` function above). If the capture session encountered a fatal error, it will raise the error as an exception. 
 
 #### Cancelling a Capture Session
 
-Since we execute asyncrhonously, within a Swift ``Task``, we also honor its cancellation functionality and stop the capture session and capture flow UI if the task is cancelled. 
+Since we execute asynchronously within a Swift ``Task``, we also honor its cancellation functionality and stop the capture session and capture flow UI if the task is cancelled. 
 
 ```swift
 let captureTask = Task {
     do {
         try await HVCameraExterior.sharedInstance.startCaptureSession(settings: sessionSettings, info: jobInfo)
+        try await HVCameraExterior.sharedInstance.startCaptureFlow()
     } catch let error as HVSessionError {
         switch error.kind {
         case .UserCancelled:
@@ -107,4 +99,62 @@ let captureTask = Task {
 DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
     captureTask.cancel()
 })
+```
+
+#### Monitoring Job Status
+
+Since the capture flow proceeds asynchronously, the host app may want to monitor the local job status as the capture proceeds. There are a few methods for obtaining Job status:
+
+1. on-demand: The ``HVCameraExterior`` class exposes a public method ``_HVCameraExterior.getClientJobStatus(for:)``. This is an `async` method that will return what the requested `Job`'s current status as a ``JobStatus``. If the requested ``Job`` doesn't exist locally, then it will raise a ``HVJobError`` exception.  
+2. streaming: The ``HVCameraExterior`` class also exposes a public method ``getJobStateObservable`` that returns a `Combine` publisher for the requested `Job`. The publisher will emit ``JobStatus`` instances whenever there's a change in the `Job`'s status. Additionally, ``startCaptureSession`` will return what the current `Job`'s status is when called, so together with `getJobStateObservable` you can track the whole status history for the `Job` (n.b. the initial state won't be published for a `Job`, so to get the complete status history you need to use the initial state returned from ``_HVCameraExterior.startCaptureSession`` in conjunction with the publisher from `getJobStateObservable`). The initial Job state will generally be ``JobStatus.Created`` if newly created, or ``JobStatus.Draft`` if resuming an existing Job.
+
+For example, adapting the previous example to monitor the `Job` status and build a complete `JobStatus` history for the capture session, you can do:
+
+```swift
+import HVCamera
+import SwiftUI
+
+struct FooView: View {
+    let jobInfo: CaptureJobInformation
+    let sessionSettings: HVCameraSettings
+
+    // if you you want monitor multiple job's statuses
+    @State private var jobCancellables = [JobIdentifier: AnyCancellable]()
+    @State private var jobStatusHistory = [JobIdentifier: [JobStatus]]()
+
+    // ... populate settings, etc. 
+
+    var body: some View {
+        Button("Start Capture") {
+            let captureTask = Task {
+                do {
+                    let jobState = try await HVCameraExterior.sharedInstance.startCaptureSession(settings: sessionSettings, info: jobInfo)
+                    jobStatusHistory[jobInfo.identifier]?.append(jobStatus)
+                    // check if we have a listener for the job already, so we don't make duplicate listeners each time the view is created
+                    if jobCancellables[jobInfo.identifier] == nil {
+                        let cancellable = HVCameraExterior.sharedInstance.getJobStateObservable(for: jobInfo.identifier).sink(receiveValue: { (jobState: JobStatus) in
+                            // NOTE: you can t ake various actions here based on the status change
+                            if case let .UploadProgress(_, uploadStatus) = jobState {
+                                print("Job@State: \(jobState) --> File@State: \(String(describing: uploadStatus))")
+                            } else if case let .Error(_, error) = jobState {
+                                print("Job@State: \(jobState) --> Error: \(error)")
+                            } else {
+                                print("Job@State: \(jobState)")
+                            }
+                            jobStatusHistory[jobInfo.identifier]?.append(jobStatus)
+                        })
+                        jobCancellables[jobInfo.identifier] = cancellable
+                    }
+                    try await HVCameraExterior.sharedInstance.startCaptureFlow()
+                } catch let error as HVSessionError {
+                    // TODO: handle the known errors here
+                    print("Known capture flow error: \(error.localizedDescription)")
+                } catch {
+                    // TODO: handle unknown errors, who knows what to do
+                    print("Unknown Capture Flow Error: \(error.localizedDescription)")
+                }
+                captureSessionCompleted()
+            }
+        }
+    }
 ```

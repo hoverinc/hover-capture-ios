@@ -20,7 +20,7 @@ The HOVER Capture SDK provides on-device functionality to facilitate HOVER 3D mo
 - On-device local persistence
 - Robust data uploads to the HOVER backend
 
-Once the data has been captured and uploaded from the SDK, the HOVER backend will begin the 3D model processing.
+Once the data has been captured and uploaded from the SDK, the HOVER backend will begin the 3D model processing.   
 
 ## Essentials
 
