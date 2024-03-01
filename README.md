@@ -2,6 +2,10 @@
 
 The HOVER Capture iOS SDK provides a user flow for capturing and submitting 3D scans of homes to be processed by HOVER. This involves a camera experience capable of collecting all necessary data, and instructional and permission management flows to improve capture success rates.
 
+* Documentation: [https://hoverinc.github.io/hover-capture-ios](https://hoverinc.github.io/hover-capture-ios)
+  * [DocC Documentation](https://hoverinc.github.io/hover-capture-ios/documentation/hvcapturesdk)
+  * [Tutorials](https://hoverinc.github.io/hover-capture-ios/tutorials/tutorials)
+
 ## Installation
 
 ### Requirements
