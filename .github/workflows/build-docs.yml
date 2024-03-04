@@ -59,7 +59,7 @@ jobs:
         # collect the generated docarchive(s)
         cp -R $(find ${TMP_BUILDIR} -type d -name "*.doccarchive") "${DOCARCHIVE_DIR}/."
         # NOTE: this command seems to wipe out the path specified by --output-path, so use a tmp dir that you don't mind getting deleted (i.e. don't use _site as the output directory directly)
-        $(xcrun --find docc) process-archive transform-for-static-hosting "${DOCARCHIVE_DIR}/${SCHEME}.doccarchive" --hosting-base-path "/" --output-path "${PAGE_DIR}"
+        $(xcrun --find docc) process-archive transform-for-static-hosting "${DOCARCHIVE_DIR}/${SCHEME}.doccarchive" --hosting-base-path "hover-capture-ios" --output-path "${PAGE_DIR}"
 
         # Copy DocC Output to Jekyll Site
         mkdir -p _site/
