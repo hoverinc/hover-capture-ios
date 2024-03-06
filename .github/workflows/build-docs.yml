@@ -63,6 +63,8 @@ jobs:
 
         # Copy DocC Output to Jekyll Site
         mkdir -p _site/
+        # get rid of the DocC index.html, since it's an empty page anyways and we don't want to overwrite the Jekyll one
+        rm "${PAGE_DIR}"/index.html
         cp -R "${PAGE_DIR}"/* _site/.
         rm -rf "${TMP_BUILDIR}"
 
