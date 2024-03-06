@@ -46,6 +46,7 @@ extension HVTheme {
         successHeader: "Success screen header is customizable",
         successMessage: "Success screen message is customizable",
         successNextSteps: "Success screen next steps are customizable",
+        successButtonText: "Continue",
         cameraCaptureBackground: .teal,
         toolbarBackground: .orange.opacity(0.3),
         toolbarHeader: .purple,
