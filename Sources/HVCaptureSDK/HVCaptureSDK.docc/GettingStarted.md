@@ -158,3 +158,21 @@ struct FooView: View {
         }
     }
 ```
+
+#### Supporting Background Uploads
+
+By default, uploads will only occur while the app is open in the foreground. While uploads begin
+as soon as a photo is captured, uploads may take longer in resource-constrained environments such as
+areas with poor WiFi or cellular coverage, or when operating on the edge of a WiFi network (as is
+common when taking photos of the exterior of a property).
+
+To enable background uploads, follow these steps:
+
+1. Add the "Background Tasks" capability to your app. 
+    - This can be done by selecting your project in the Project navigator, selecting your 
+      application target, going to Signing & Capabilities, and "+ Capability" 
+2. Check the "Background Processing" checkbox within the "Background Tasks" capability.
+2. Add `to.hover.uploads` to the [`BGTaskSchedulerPermittedIdentifiers`](https://developer.apple.com/documentation/bundleresources/information_property_list/bgtaskschedulerpermittedidentifiers))
+    key in your `Info.plist`.
+
+
