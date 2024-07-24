@@ -23,60 +23,63 @@ jobs:
     needs: build-jekyll
     runs-on: macos-13
     timeout-minutes: 10
+    permissions: read-all
     steps:
-    - uses: actions/checkout@v4
-      with:
-        lfs: 'true'
-    - name: Download Jekyll Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: jekyll-site
-        path: _site
+      - uses: actions/checkout@v4
+        with:
+          lfs: 'true'
+      - name: Download Jekyll Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: jekyll-site
+          path: _site
 
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.0.1.app
 
-    - name: Generate DocC docs 
-      run: |
-        SCHEME="HVCaptureSDK"
+      - name: Generate DocC docs
+        run: |
+          SCHEME="HVCaptureSDK"
 
-        # have derivedData outside of project dir to avoid SPM cache issue? https://forums.swift.org/t/xcode-and-swift-package-manager/44704/5
-        TMP_BUILDIR="$HOME/doc-build"
-        mkdir -p ${TMP_BUILDIR}
-        DOCARCHIVE_DIR="tmp/docs"
-        mkdir -p ${DOCARCHIVE_DIR}
-        PAGE_DIR="tmp/site"
-        mkdir -p ${PAGE_DIR}
+          # have derivedData outside of project dir to avoid SPM cache issue? https://forums.swift.org/t/xcode-and-swift-package-manager/44704/5
+          TMP_BUILDIR="$HOME/doc-build"
+          mkdir -p ${TMP_BUILDIR}
+          DOCARCHIVE_DIR="tmp/docs"
+          mkdir -p ${DOCARCHIVE_DIR}
+          PAGE_DIR="tmp/site"
+          mkdir -p ${PAGE_DIR}
 
-        touch $HOME/.netrc
-        echo "machine api.github.com login hover-devops password ${{ secrets.DEVOPS_PAT }}" > $HOME/.netrc
+          touch $HOME/.netrc
+          echo "machine api.github.com" > $HOME/.netrc
+          echo "login ${{ secrets.GITHUB_TOKEN }}" >> $HOME/.netrc
+          echo "password ${{ secrets.GITHUB_TOKEN }}" >> $HOME/.netrc
 
-        # compile the DocC archive(s)
-        xcodebuild docbuild \
-                   -scheme "${SCHEME}" \
-                   -destination generic/platform=iOS \
-                   -derivedDataPath "${TMP_BUILDIR}"
-        # collect the generated docarchive(s)
-        cp -R $(find ${TMP_BUILDIR} -type d -name "*.doccarchive") "${DOCARCHIVE_DIR}/."
-        # NOTE: this command seems to wipe out the path specified by --output-path, so use a tmp dir that you don't mind getting deleted (i.e. don't use _site as the output directory directly)
-        $(xcrun --find docc) process-archive transform-for-static-hosting "${DOCARCHIVE_DIR}/${SCHEME}.doccarchive" --hosting-base-path "hover-capture-ios" --output-path "${PAGE_DIR}"
+          # compile the DocC archive(s)
+          xcodebuild docbuild \
+                     -scheme "${SCHEME}" \
+                     -destination generic/platform=iOS \
+                     -derivedDataPath "${TMP_BUILDIR}"
+          # collect the generated docarchive(s)
+          cp -R $(find ${TMP_BUILDIR} -type d -name "*.doccarchive") "${DOCARCHIVE_DIR}/."
+          # NOTE: this command seems to wipe out the path specified by --output-path, so use a tmp dir that you don't mind getting deleted (i.e. don't use _site as the output directory directly)
+          $(xcrun --find docc) process-archive transform-for-static-hosting "${DOCARCHIVE_DIR}/${SCHEME}.doccarchive" --hosting-base-path "hover-capture-ios" --output-path "${PAGE_DIR}"
 
-        # Copy DocC Output to Jekyll Site
-        mkdir -p _site/
-        # get rid of the DocC index.html, since it's an empty page anyways and we don't want to overwrite the Jekyll one
-        rm "${PAGE_DIR}"/index.html
-        cp -R "${PAGE_DIR}"/* _site/.
-        rm -rf "${TMP_BUILDIR}"
+          # Copy DocC Output to Jekyll Site
+          mkdir -p _site/
+          # get rid of the DocC index.html, since it's an empty page anyways and we don't want to overwrite the Jekyll one
+          rm "${PAGE_DIR}"/index.html
+          cp -R "${PAGE_DIR}"/* _site/.
+          rm -rf "${TMP_BUILDIR}"
 
-    - name: Fix GH-pages permissions
-      run: |
-        # from https://github.com/actions/upload-pages-artifact
-        chmod -v -R +rX "_site/" | while read line; do
-          echo "::warning title=Invalid file permissions automatically fixed::$line"
-        done
+      - name: Fix GH-pages permissions
+        run: |
+          # from https://github.com/actions/upload-pages-artifact
+          chmod -v -R +rX "_site/" | while read line; do
+            echo "::warning title=Invalid file permissions automatically fixed::$line"
+          done
 
-    - name: Upload Pages artifact
-      uses: actions/upload-pages-artifact@v2
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
 
   # Deploy github pages job
   deploy:
