@@ -3,60 +3,14 @@ import SwiftUI
 
 extension HVTheme {
     static let tutorialTheme = HVTheme(
-        primary: .green,
-        onPrimary: .black,
-        primaryContainer: .blue,
-        onPrimaryContainer: .black,
-        secondary: .mint,
-        onSecondary: .black,
-        subtleElements: .indigo,
-        error: .red,
-        onError: .pink,
-        surface: .pink,
-        onSurface: .red,
-        textPrimary: .black,
-        textSecondary:
-            Color(uiColor: .darkGray),
-        textPrimaryDark: .gray,
-        footerCTABackground:
-            Color(uiColor: .lightGray),
-        toolbarBack:
-            Image(systemName: "paperplane"),
-        toolbarClose:
-            Image(systemName: "heart.slash"),
-        permissionCameraHeader:
-            "Camera permissions header is customizable",
-        permissionCameraBody:
-            "Camera permissions body is customizable",
-        permissionCameraConfirm:
-            "Customizable Camera button",
-        permissionCameraDeniedButtonText:
-            "Camera permissions denied button is customizable",
-        permissionLocationHeader:
-            "Location permissions header is customizable",
-        permissionLocationBody:
-            "Location permissions body is customizable",
-        permissionLocationConfirm:
-            "Customizable Location button",
-        galleryDeleteConfirmHeader:
-            "Photo gallery delete header is customizable",
-        galleryDeleteConfirmBody:
-            "Customizable delete button",
-        successIcon: Image(systemName: "checkmark.seal.fill"),
-        successHeader: "Success screen header is customizable",
-        successMessage: "Success screen message is customizable",
-        successNextSteps: "Success screen next steps are customizable",
-        successButtonText: "Continue",
-        cameraCaptureBackground: .teal,
-        toolbarBackground: .orange.opacity(0.3),
-        toolbarHeader: .purple,
-        toolbarIcon: .mint,
-        textLink: .yellow,
-        illustrationMainStroke: .white,
-        illustrationSubStroke: .black,
-        gridItemBorder: .purple,
-        gridItemBackground: .gray,
-        gridItemBorderRadius: 30
+        hoverCapturePrimaryButtonBackground: HVColorStateList(active: .red, pressed: .black, inactive: .grey),
+        hoverCapturePrimaryButtonText: HVColorStateList(active: .green, pressed: .black, inactive: .grey),
+        hoverCaptureTextLink: HVColorStateList(active: .yellow, pressed: .brown, inactive: .grey),
+        hoverCaptureTutorialImageOverlayStroke: Color? .indigo,
+        hoverCaptureGalleryDeleteConfirmHeader: String? "",
+        hoverCaptureGalleryDeleteConfirmBody: String? = "",
+        hoverCaptureError: .pink,
+        hoverCaptureSuccessIcon: Image(systemName: "paperplane")
     )
 }
 
@@ -78,10 +32,10 @@ struct ContentView: View {
                 var settings = HVCameraSettings()
                 settings.theme = .tutorialTheme
                 do {
-                    try await HVCameraExterior.sharedInstance
+                    try await HoverSDK.sharedInstance
                         .startCaptureSession(settings: settings,
                                              info: jobInfo)
-                    try await HVCameraExterior.sharedInstance
+                    try await HoverSDK.sharedInstance
                         .startCaptureFlow()
                 } catch {
                     // ...

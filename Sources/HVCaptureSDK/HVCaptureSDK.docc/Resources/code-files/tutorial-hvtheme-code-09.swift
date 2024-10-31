@@ -17,7 +17,6 @@ extension HVTheme {
         textPrimary: .black,
         textSecondary:
             Color(uiColor: .darkGray),
-        textPrimaryDark: .gray,
         footerCTABackground:
             Color(uiColor: .lightGray),
         toolbarBack:
@@ -94,10 +93,10 @@ struct ContentView: View {
                 var settings = HVCameraSettings()
                 settings.theme = .tutorialTheme
                 do {
-                    try await HVCameraExterior.sharedInstance
+                    try await HVPartnerSDK.sharedInstance
                         .startCaptureSession(settings: settings,
                                              info: jobInfo)
-                    try await HVCameraExterior.sharedInstance
+                    try await HVPartnerSDK.sharedInstance
                         .startCaptureFlow()
                 } catch {
                     // ...

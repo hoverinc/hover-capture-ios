@@ -3,29 +3,13 @@ import SwiftUI
 
 extension HVTheme {
     static let tutorialTheme = HVTheme(
-        primary: .green,
-        onPrimary: .black,
-        primaryContainer: .blue,
-        onPrimaryContainer: .black,
-        secondary: .mint,
-        onSecondary: .black,
-        subtleElements: .indigo,
-        error: .red,
-        onError: .pink,
-        surface: .pink,
-        onSurface: .red,
-        textPrimary: .black,
-        textSecondary:
-            Color(uiColor: .darkGray),
-        textPrimaryDark: .gray,
-        footerCTABackground:
-            Color(uiColor: .lightGray),
-        cameraCaptureBackground: .teal,
-        toolbarBackground:
-                .orange.opacity(0.3),
-        toolbarHeader: .purple,
-        toolbarIcon: .mint,
-        textLink: .yellow
+        hoverCapturePrimaryButtonBackground: HVColorStateList(active: .red, pressed: .black, inactive: .grey),
+        hoverCapturePrimaryButtonText: HVColorStateList(active: .green, pressed: .black, inactive: .grey),
+        hoverCaptureTextLink: HVColorStateList(active: .yellow, pressed: .brown, inactive: .grey),
+        hoverCaptureTutorialImageOverlayStroke: Color? .indigo,
+        hoverCaptureGalleryDeleteConfirmHeader: String? "",
+        hoverCaptureGalleryDeleteConfirmBody: String? = "",
+        hoverCaptureError: .pink
     )
 }
 
@@ -47,10 +31,10 @@ struct ContentView: View {
                 var settings = HVCameraSettings()
                 settings.theme = .tutorialTheme
                 do {
-                    try await HVCameraExterior.sharedInstance
+                    try await HVPartnerSDK.sharedInstance
                         .startCaptureSession(settings: settings,
                                              info: jobInfo)
-                    try await HVCameraExterior.sharedInstance
+                    try await HVPartnerSDK.sharedInstance
                         .startCaptureFlow()
                 } catch {
                     // ...

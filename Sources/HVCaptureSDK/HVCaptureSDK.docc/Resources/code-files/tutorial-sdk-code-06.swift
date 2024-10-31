@@ -29,11 +29,11 @@ struct ContentView: View {
         Button("Start Capture") {
             Task {
                 do {
-                    let initialStatus = try await HVCameraExterior.sharedInstance.startCaptureSession(settings: settings, info: jobInfo)
+                    let initialStatus = try await HVPartnerSDK.sharedInstance.startCaptureSession(settings: settings, info: jobInfo)
                     jobStateHistory[jobInfo.identifier]?.append(initialStatus)
                     // check if we have a listener for the job already, so we don't make duplicate listeners each time the view is created
                     if jobCancellables[jobInfo.identifier] == nil {
-                        let cancellable = HVCameraExterior.sharedInstance.getJobStateObservable(for: jobInfo.identifier).sink(receiveValue: { (jobState: JobStatus) in
+                        let cancellable = HVPartnerSDK.sharedInstance.getJobStateObservable(for: jobInfo.identifier).sink(receiveValue: { (jobState: JobStatus) in
                             if case let .UploadProgress(_, uploadStatus) = jobState {
                                 print("Job@State: \(jobState) --> File@State: \(String(describing: uploadStatus))")
                             } else if case let .Error(_, error) = jobState {
@@ -46,7 +46,7 @@ struct ContentView: View {
                         jobCancellables[jobInfo.identifier] = cancellable
                     }
 
-                    try await HVCameraExterior.sharedInstance.startCaptureFlow()
+                    try await HVPartnerSDK.sharedInstance.startCaptureFlow()
                 } catch let error as HVSessionError {
                     // maybe handle our known errors here
                     switch error.kind {

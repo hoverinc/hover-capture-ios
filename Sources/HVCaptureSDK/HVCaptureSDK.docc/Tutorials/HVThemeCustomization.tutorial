@@ -14,7 +14,7 @@
         @Steps {
             @Step {
                 The ``HVTheme`` constructor has a lot of configuration options, all of which are optional. Values that aren't specified fall back to the default theme values, which is the HOVER theme.
-                Certain parameters have interactions, so for example, if the ``HVTheme/primaryButtonBackground`` parameter isn't specified, then we'll build one out of a combination of the HVTheme `primary`, `secondary`, and `surface` parameters.  
+                Certain parameters have interactions, so for example, if the ``HVTheme/hoverCapturePrimaryButtonBackground`` parameter isn't specified, then we'll build one out of a combination of the HVTheme `primary`, `secondary`, and `surface` parameters.  
                 
                 @Code(name: "HVTheme.swift", file: tutorial-hvtheme-code-01)
             }
@@ -64,10 +64,8 @@
             
             @Step {
                 In this step, we specify some of the customizable icons. 
-                The icon for the button to navigate to the previous screen is specified with ``HVTheme/toolbarBack``, and we have it set to `Image(systemName: "paperplane")` in this step.
-                The icon for the success screen is specified with ``HVTheme/successIcon``, set to `Image(systemName: "checkmark.seal.fill")` in this step. 
-                The icon for the camera permission denied screen is ``HVTheme/toolbarClose``, set to `Image(systemName: "heart.slash")` here. 
-                The icon for top toolbar banner is specified with ``HVTheme/toolbarLogo``, and is specified as a `View`.
+                The icon for the success screen is specified with ``HVTheme/hoverCaptureSuccessIcon``, set to `Image(systemName: "checkmark.seal.fill")` in this step. 
+                The icon for top toolbar banner is specified with ``HVTheme/hoverCaptureToolbarBack``, and is specified as a `View`.
                 Applications can use arbitrary custom images by supplying them in the app bundle, downloading them from the internet at runtime, etc. We simply used system images here for simplicity's sake.  
             
                 @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-06) {
