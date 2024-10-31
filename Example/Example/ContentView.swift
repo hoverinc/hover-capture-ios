@@ -12,16 +12,21 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button("Start Flow") {
+                
+                let jobIdentifier = JobIdentifier(jobID: 42)
+                let jobInfo = CaptureJobInformation(
+                    firstTimeUser: true,
+                    identifier: jobIdentifier,
+                    uploadSecret: "?")
+                
                 Task {
+                    
                     try await HVCameraExterior.sharedInstance.startCaptureSession(
                         settings: HVCameraSettings(),
-                        info: CaptureJobInformation(
-                            firstTimeUser: true,
-                            jobID: 12345,
-                            clientIdentifier: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF",
-                            uploadSecret: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF"
-                        )
+                        info: jobInfo
                     )
+                    try await HVCameraExterior.sharedInstance.startCaptureFlow()
+                    
                 }
             }
         }
