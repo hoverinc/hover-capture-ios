@@ -13,21 +13,28 @@ struct ContentView: View {
         VStack {
             Button("Start Flow") {
                 Task {
-                    try await HVCameraExterior.sharedInstance.startCaptureSession(
-                        settings: HVCameraSettings(),
-                        info: CaptureJobInformation(
-                            firstTimeUser: true,
-                            jobID: 12345,
-                            clientIdentifier: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF",
-                            uploadSecret: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF"
-                        )
-                    )
+                    let jobInfo = CaptureJobInformation(
+                        firstTimeUser: true,
+                        identifier: JobIdentifier(
+                            jobID: 123
+                        ),
+                        uploadSecret: "DEADBEEF_DEAD_BEEF_DEAD_BEEFDEADBEEF")
+                    let sessionSettings = HVCameraSettings()
+                    
+                    do {
+                        _ = try await HVPartnerSDK.sharedInstance.startCaptureSession(
+                            settings: sessionSettings,
+                            info: jobInfo)
+                        try await HVPartnerSDK.sharedInstance.startCaptureFlow()
+                    } catch let error as HVSessionError {
+                        print("Known capture flow error: \(error.localizedDescription)")
+                    } catch {
+                        print("Unknown Capture Flow Error: \(error.localizedDescription)")
+                        
+                    }
                 }
             }
-        }
-        .padding()
-        .onAppear {
-            HVCameraExterior.sharedInstance.initialize()
+            .padding()
         }
     }
 }

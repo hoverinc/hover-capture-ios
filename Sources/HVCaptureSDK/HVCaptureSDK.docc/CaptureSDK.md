@@ -1,4 +1,4 @@
-# ``_HVCameraExterior``
+# ``_HoverSDK``
 
 The HOVER capture experience
 

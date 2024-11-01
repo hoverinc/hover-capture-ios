@@ -1,14 +1,15 @@
 {
+  "originHash" : "c8f3ebc6a23f3c1e8a73f3e85b85901f9db883bb57585cf587f6108a424a2640",
   "pins" : [
     {
       "identity" : "hover-capture-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hoverinc/hover-capture-ios.git",
       "state" : {
-        "revision" : "a2fd119de617dc69d93af4f4ddcff95d74763583",
-        "version" : "0.1.1"
+        "branch" : "release/2.0.0",
+        "revision" : "4b0a5942180f6f9e50a409001f5352fff5985055"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

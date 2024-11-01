@@ -2,31 +2,74 @@ import HVCaptureSDK
 import SwiftUI
 
 extension HVTheme {
-    static let tutorialTheme = HVTheme(
-        primary: .green,
-        onPrimary: .black,
-        primaryContainer: .blue,
-        onPrimaryContainer: .black,
-        secondary: .mint,
-        onSecondary: .black,
-        subtleElements: .indigo,
-        error: .red,
-        onError: .pink,
-        surface: .pink,
-        onSurface: .red,
-        textPrimary: .black,
-        textSecondary:
-            Color(uiColor: .darkGray),
-        textPrimaryDark: .gray,
-        footerCTABackground:
-            Color(uiColor: .lightGray),
-        cameraCaptureBackground: .teal,
-        toolbarBackground:
-                .orange.opacity(0.3),
-        toolbarHeader: .purple,
-        toolbarIcon: .mint,
-        textLink: .yellow
-    )
+static let tutorialTheme = HVTheme(
+    hoverCapturePrimaryButtonBackground:
+        HVColorStateList(
+            active: .black,
+            pressed: .blue,
+            inactive: .brown),
+    hoverCapturePrimaryButtonText:
+        HVColorStateList(
+            active: .cyan,
+            pressed: .gray,
+            inactive: .green),
+    hoverCapturePrimaryButtonShadowBackground:
+        HVColorStateList(
+            active: .indigo,
+            pressed: .mint,
+            inactive: .orange),
+    hoverCaptureSecondaryButtonBackground:
+        HVColorStateList(
+            active: .pink,
+            pressed: .purple,
+            inactive: .red),
+    hoverCaptureSecondaryButtonText:
+        HVColorStateList(
+            active: .teal,
+            pressed: .white,
+            inactive: .yellow),
+    hoverCaptureSecondaryButtonShadowBackground:
+        HVColorStateList(
+            active: .black,
+            pressed: .cyan,
+            inactive: .indigo),
+    hoverCaptureSecondaryButtonStrokeColor:
+        HVColorStateList(
+            active: .pink,
+            pressed: .teal,
+            inactive: .black),
+    hoverCaptureToolbarIcon: .blue,
+    hoverCaptureToolbarHeader: .gray,
+    hoverCaptureToolbarBackground: .mint,
+    hoverCaptureTextHeading: .purple,
+    hoverCaptureTextLight: .black,
+    hoverCaptureIllustrationSubStroke: .cyan,
+    hoverCaptureGridItemBorder: .teal,
+    hoverCaptureGridItemBackground: .brown,
+    hoverCaptureIllustrationMainStroke: .green,
+    hoverCaptureTextLink: .orange,
+    hoverCaptureTutorialImageOverlayStroke: .red,
+    hoverCaptureError: .yellow,
+    hoverCaptureCameraBackground: .indigo,
+    hoverCaptureBadgeBackground: .black,
+    hoverCaptureBadgeStroke:
+        Color(
+            hue: 0.5,
+            saturation: 0.5,
+            brightness: 0.5,
+            opacity: 0.5),
+    hoverCaptureBadgeText:
+        Color(cgColor:
+                CGColor(
+                    red: 1.0,
+                    green: 0.5,
+                    blue: 0.3,
+                    alpha: 0.9)
+             ),
+    hoverCaptureFooterCtaBackground:
+            .green.opacity(0.5),
+    hoverCaptureDecorativeIcon: .gray
+)
 }
 
 struct ContentView: View {
@@ -47,10 +90,10 @@ struct ContentView: View {
                 var settings = HVCameraSettings()
                 settings.theme = .tutorialTheme
                 do {
-                    try await HVCameraExterior.sharedInstance
+                    try await HVPartnerSDK.sharedInstance
                         .startCaptureSession(settings: settings,
                                              info: jobInfo)
-                    try await HVCameraExterior.sharedInstance
+                    try await HVPartnerSDK.sharedInstance
                         .startCaptureFlow()
                 } catch {
                     // ...
