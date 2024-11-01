@@ -3,4 +3,4 @@
 
 @_exported import _HVAVCamera
 @_exported import _HVCore
-@_exported import _HVCameraExterior
+@_exported import _HoverSDK
