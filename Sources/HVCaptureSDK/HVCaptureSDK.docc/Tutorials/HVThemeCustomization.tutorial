@@ -1,6 +1,6 @@
 @Tutorial(time: 15) {
     @Intro(title: "Customizing SDK Theming") {
-        Learn how to customize aspects of the HOVER Capture SDK UI appearance
+        Learn how to customize aspects of the Hover Capture SDK UI appearance.
         
         @Image(source: hover-graph-logo, alt: "HOVER logo as a graph")
     }
@@ -13,8 +13,8 @@
         
         @Steps {
             @Step {
-                The ``HVTheme`` constructor has a lot of configuration options, all of which are optional. Values that aren't specified fall back to the default theme values, which is the HOVER theme.
-                Certain parameters have interactions, so for example, if the ``HVTheme/primaryButtonBackground`` parameter isn't specified, then we'll build one out of a combination of the HVTheme `primary`, `secondary`, and `surface` parameters.  
+                The ``HVTheme`` constructor has a long list of configuration options, all of which are optional. Values that aren't specified fall back to the default theme values, which is the Hover theme.
+                Certain parameters have interactions, so for example, if the ``HVTheme/hoverCapturePrimaryButtonBackground`` parameter isn't specified, then we'll build one out of a combination of the HVTheme internal `primary`, `secondary`, and `surface` parameters.  
                 
                 @Code(name: "HVTheme.swift", file: tutorial-hvtheme-code-01)
             }
@@ -44,12 +44,13 @@
             
             @Image(source: tutorial-s02-default, alt: "Default Property Screen")
         }
+        
         @Steps {
             @Step {
                 Create a custom `HVTheme` object and apply it in the capture session settings. 
                 We can specify different colors to use for different visual elements. 
-                Take a minute to note how the different colors show up on the various screens. 
-                We are specifying a subset of colors in this step, but no icons or direct button styles yet. 
+                Take a minute to note how the different colors show up on the various screens, and that we can use any number of methods to construct our `Color` values.
+                We are specifying a subset of colors in this step, but no icons or direct button styles yet.
             
                 @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-05) {
                     @Image(source: t2-s1-colors, alt: "Screens customized with colors")
@@ -64,11 +65,8 @@
             
             @Step {
                 In this step, we specify some of the customizable icons. 
-                The icon for the button to navigate to the previous screen is specified with ``HVTheme/toolbarBack``, and we have it set to `Image(systemName: "paperplane")` in this step.
-                The icon for the success screen is specified with ``HVTheme/successIcon``, set to `Image(systemName: "checkmark.seal.fill")` in this step. 
-                The icon for the camera permission denied screen is ``HVTheme/toolbarClose``, set to `Image(systemName: "heart.slash")` here. 
-                The icon for top toolbar banner is specified with ``HVTheme/toolbarLogo``, and is specified as a `View`.
-                Applications can use arbitrary custom images by supplying them in the app bundle, downloading them from the internet at runtime, etc. We simply used system images here for simplicity's sake.  
+                The icon for the success screen is specified with ``HVTheme/hoverCaptureSuccessIcon``, set to `Image(systemName: "paperplane")` in this step. It's color is determined by the `hoverCaptureTutorialImageOverlayStroke` setting. 
+                Applications can use arbitrary custom images by supplying them in the application bundle, downloading them from the internet at runtime, etc. We simply used system images here for simplicity's sake.  
             
                 @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-06) {
                     @Image(source: t2-s3-icons, alt: "Screens with configured icons")
@@ -76,8 +74,7 @@
             }
             
             @Step {
-                In this step, we configure parameters specific to the capture grid screen. 
-                Note that we already have a degree of customization applied to the grid screen by way of e.g. ``HVTheme/primary`` and ``HVTheme/subtleElements``, but the parameters specified in this step give a more direct control of the specific grid elements. 
+                In this step, we configure parameters specific to the capture grid screen. Note how the color and grid shape changes based on the modified parameters.  
                 
                 @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-07) {
                     @Image(source: t2-s4-gridscreen, alt: "Capture grid screen customization")
@@ -86,7 +83,7 @@
 
             @Step {
                 Additionally, certain screens can have their text customized based on their strings provided in ``HVTheme``.
-                Often the messages consist of 3 components: the header, the message body, and a message to display on a button that the user can press.
+                Often the messages consist of 3 components: the header, the message body, and a message to display on a button that the user can press, though in the case of the success screen there's an extra `hoverCaptureSuccessNextSteps` field. Also note that any field can be left `nil` (in which case the default message will be used, as specified in ``HVTheme/defaultValues``), or can be set to `""`, in which case no message will be shown. 
                 
                 @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-08) {
                     @Image(source: t2-s5-text, alt: "Text message screen customization")
@@ -96,11 +93,9 @@
             @Step {
                 It's possible to customize specifics of the primary and secondary button appearance.
                 Note how the `Continue` button changes appearance as the capture proceeds -- at the start when no photos have been taken, it's disabled and clicking it changes it's appearance to match its `inactive` theme. 
-                Once the minimum (4) number of photos have been taken, the button becomes `active` and its `pressed` appearance changes as well to match the given ``HVTheme``. 
+                Once the minimum number of required photos have been taken, the button becomes `active` and its `pressed` appearance changes as well to match the colors in ``HVTheme``. 
                 
-                @Code(name: "ContentView.swift", file: tutorial-hvtheme-code-09) {
-                    @Image(source: t2-s6-buttons, alt: "Button customization")
-                }
+                @Image(source: t2-s6-buttons, alt: "Button customization")
             }
         }
     }

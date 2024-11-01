@@ -27,8 +27,8 @@ struct ContentView: View {
         Button("Start Capture") {
             Task {
                 do {
-                    try await HVCameraExterior.sharedInstance.startCaptureSession(settings: settings, info: jobInfo)
-                    try await HVCameraExterior.sharedInstance.startCaptureFlow()
+                    try await HVPartnerSDK.sharedInstance.startCaptureSession(settings: settings, info: jobInfo)
+                    try await HVPartnerSDK.sharedInstance.startCaptureFlow()
                 } catch let error as HVSessionError {
                     // maybe handle our known errors here
                     switch error.kind {

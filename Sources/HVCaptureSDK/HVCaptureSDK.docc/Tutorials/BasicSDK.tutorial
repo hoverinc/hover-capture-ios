@@ -88,7 +88,41 @@
                 @Code(name: "ContentView.swift", file: tutorial-sdk-code-06)
             }
             
+        }
+    }
+    
+    @Section(title: "Background Uploads") {
+        @ContentAndMedia {
+            Enable support for background uploads in the HOVER Capture SDK
             
+            @Image(source: hover-logo, alt: "HOVER logo")
+        }
+        
+        @Steps {
+
+            @Step {
+                If the host application does not have support for background tasks enabled yet, the "Background Tasks" capability has to be added to the application. Select your project in the Project navigator, select your application target, navigate to `Signing & Capabilities`, and `"+ Capability"`. Check the "Background Processing" checkbox within the "Background Modes" capability.
+                
+                @Image(source: tutorial-s01-05, alt: "Screenshot showing adding background processing to the application")
+            }
+            
+            @Step {
+                Add `to.hover.uploads` to the `BGTaskSchedulerPermittedIdentifiers` key in your `Info.plist`.
+                
+                @Image(source: tutorial-s01-06, alt: "Screenshot showing application Info.plist with `to.hover.uploads` as an authorized background task key")
+            }
+            
+            @Step {
+                To enable the SDK to automatically enqueue background upload tasks, call the ``HVPartnerSDK/registerForBackgroundJobs()`` method. As long as the preceeding step has been done, this call enables the SDK to enqueue background tasks (`BGProcessingTask`) for uploading photos as needed. If there are no pending uploads, the SDK will not enqueue any background tasks to run.    
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-07)
+            }
+            
+            @Step {
+                For applications that already have a background task infrastructure and want more direct control over the SDK's background task scheduling, it's possible to manually schedule the SDK to perform pending uploads in the background. Call ``HVPartnerSDK/initializeForBackground(parameters:)`` to set up the uploading infrastructure and perform uploads in the background.
+                
+                @Code(name: "ContentView.swift", file: tutorial-sdk-code-08)
+            }
         }
     }
 }
