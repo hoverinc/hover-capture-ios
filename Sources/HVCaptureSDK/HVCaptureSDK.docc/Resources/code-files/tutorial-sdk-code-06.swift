@@ -1,5 +1,6 @@
-import SwiftUI
+import Combine
 import HVCaptureSDK
+import SwiftUI
 
 struct ContentView: View {
 
@@ -34,14 +35,14 @@ struct ContentView: View {
                     // check if we have a listener for the job already, so we don't make duplicate listeners each time the view is created
                     if jobCancellables[jobInfo.identifier] == nil {
                         let cancellable = HVPartnerSDK.sharedInstance.getJobStateObservable(for: jobInfo.identifier).sink(receiveValue: { (jobState: JobStatus) in
-                            if case let .UploadProgress(_, uploadStatus) = jobState {
+                            if case let .uploadProgress(_, uploadStatus) = jobState {
                                 print("Job@State: \(jobState) --> File@State: \(String(describing: uploadStatus))")
-                            } else if case let .Error(_, error) = jobState {
+                            } else if case let .error(_, error) = jobState {
                                 print("Job@State: \(jobState) --> Error: \(error.localizedDescription)")
                             } else {
                                 print("Job@State: \(jobState)")
                             }
-                            jobStateHistory[jobInfo.identifier]?.append(jobStatus)
+                            jobStateHistory[jobInfo.identifier]?.append(jobState)
                         })
                         jobCancellables[jobInfo.identifier] = cancellable
                     }
@@ -50,15 +51,15 @@ struct ContentView: View {
                 } catch let error as HVSessionError {
                     // maybe handle our known errors here
                     switch error.kind {
-                    case .UserCancelled:
+                    case .userCancelled:
                         print("User cancelled capture flow")
-                    case .FilesystemUnavailable:
+                    case .filesystemUnavailable:
                         print("File system is not writable?")
-                    case .SessionCreationFailed:
+                    case .sessionCreationFailed:
                         print("Could not create capture session")
-                    case .ViewControllerMissing:
+                    case .viewControllerMissing:
                         print("View Controller absent")
-                    case .Unknown(let errorMsg):
+                    case .unknown(let errorMsg):
                         print("unknown error \(errorMsg)")
                     @unknown default:
                         fatalError("Unknown error")
