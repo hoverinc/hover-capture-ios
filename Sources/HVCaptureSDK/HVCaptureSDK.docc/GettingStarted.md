@@ -25,7 +25,7 @@ The SDK should be initialized as early as possible in the app lifecycle. This is
 As such, the SDK should (ideally) be initialized in host application’s `applicationDidFinishLaunching` method, so that the SDK can continue uploading any files that remain to be uploaded. This helps expedite 3D model generation, as we need all the captured images and metadata to begin the 3D reconstruction process.
 
 ```swift
-import HVPartnerSDK
+import HVCaptureSDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
     // ...
 
@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-While running this in `applicationDidFinishLaunching` would be ideal, at a minimum it should be run at some point prior to starting a capture session.  
+While running this in `applicationDidFinishLaunching` would be ideal, at a minimum it should be run at some point prior to starting a capture session.
 
 NOTE: if background uploads are both enabled and wanted, the application should call `HVPartnerSDK.sharedInstance.registerForBackgroundJobs()` before the app completes launching. See the section on [Supporting Background Uploads](#supporting-background-uploads) for further details.
 
@@ -107,15 +107,15 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
 
 Since the capture flow proceeds asynchronously, the host app may want to monitor the local job status as the capture proceeds. There are a few methods for obtaining Job status:
 
-1. on-demand: The ``HVPartnerSDK`` class exposes a public method ``HVPartnerSDK/getClientJobStatus(for:)``. This is an `async` method that will return what the requested `Job`'s current status as a ``JobStatus``. If the requested ``Job`` doesn't exist locally, then it will raise a ``HVJobError`` exception.  
+1. on-demand: The ``HVPartnerSDK`` class exposes a public method ``HVPartnerSDK/getClientJobStatus(for:)``. This is an `async` method that will return what the requested `Job`'s current status as a ``JobStatus``. If the requested ``Job`` doesn't exist locally, then it will raise a ``HVJobError`` exception. 
 2. streaming: The ``HVPartnerSDK`` class also exposes a public method ``HVPartnerSDK/getJobStateObservable(for:)`` that returns a `Combine` publisher for the requested `Job`. The publisher will emit ``JobStatus`` instances whenever there's a change in the `Job`'s status. Additionally, `startCaptureSession` will return what the current `Job`'s status is when called, so together with `getJobStateObservable` you can track the whole status history for the `Job` (n.b. the initial state won't be published for a `Job`, so to get the complete status history you need to use the initial state returned from ``HVPartnerSDK/startCaptureSession(settings:info:)`` in conjunction with the publisher from `getJobStateObservable`). The initial Job state will generally be ``JobStatus.Created`` if newly created, or ``JobStatus.Draft`` if resuming an existing Job.
 
 For example, adapting the previous example to monitor the `Job` status and build a complete `JobStatus` history for the capture session, you can do:
 
 ```swift
-import HVCaptureSDK
-import SwiftUI
 import Combine
+import SwiftUI
+import HVCaptureSDK
 
 struct FooView: View {
     let jobInfo: CaptureJobInformation
@@ -137,14 +137,14 @@ struct FooView: View {
                     if jobCancellables[jobInfo.identifier] == nil {
                         let cancellable = HVPartnerSDK.sharedInstance.getJobStateObservable(for: jobInfo.identifier).sink(receiveValue: { (jobState: JobStatus) in
                             // NOTE: you can take various actions here based on the status change
-                            if case let .UploadProgress(_, uploadStatus) = jobState {
+                            if case let .uploadProgress(_, uploadStatus) = jobState {
                                 print("Job@State: \(jobState) --> File@State: \(String(describing: uploadStatus))")
-                            } else if case let .Error(_, error) = jobState {
+                            } else if case let .error(_, error) = jobState {
                                 print("Job@State: \(jobState) --> Error: \(error)")
                             } else {
                                 print("Job@State: \(jobState)")
                             }
-                            jobStatusHistory[jobInfo.identifier]?.append(jobStatus)
+                            jobStatusHistory[jobInfo.identifier]?.append(jobState)
                         })
                         jobCancellables[jobInfo.identifier] = cancellable
                     }
@@ -192,4 +192,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 > Warning: Since we use `BGTaskScheduler` for our background processing, we need to call ``HVPartnerSDK/registerForBackgroundJobs()`` **before** the application finishes launching. If not, then the application will raise an `NSInternalInconsistencyException` exception with the reason: `'All launch handlers must be registered before application finishes launching'`. This is a constraint imposed by the [BGTaskScheduler framework itself](https://developer.apple.com/documentation/backgroundtasks/bgtaskscheduler/register(fortaskwithidentifier:using:launchhandler:)#Discussion) and if ignored will likely crash the application. 
 
-While using `registerForBackgroundJobs` enables the SDK to schedule background tasks on its own as needed, it's also possible to disable automatic background task scheduling and have more manual control over background task scheduling. This can be useful for applications that want closer control over background tasks spawned from the SDK and which already have their own background task scheduling. This can be achieved by **not** calling ``HVPartnerSDK/registerForBackgroundJobs()``, and instead calling ``HVPartnerSDK/initializeForBackground(parameters:)`` from within a [BGProcessingTask](https://developer.apple.com/documentation/backgroundtasks/bgprocessingtask). Under the hood, this will check if there are pending uploads. If there are no pending uploads, then it will exit and do nothing. If there are, then it'll run asynchronously and attempt to complete the pending uploads, performing a single upload at a time and exiting once the pending upload queue has been completed.     
+While using `registerForBackgroundJobs` enables the SDK to schedule background tasks on its own as needed, it's also possible to disable automatic background task scheduling and have more manual control over background task scheduling. This can be useful for applications that want closer control over background tasks spawned from the SDK and which already have their own background task scheduling. This can be achieved by **not** calling ``HVPartnerSDK/registerForBackgroundJobs()``, and instead calling ``HVPartnerSDK/initializeForBackground(parameters:)`` from within a [BGProcessingTask](https://developer.apple.com/documentation/backgroundtasks/bgprocessingtask). Under the hood, this will check if there are pending uploads. If there are no pending uploads, then it will exit and do nothing. If there are, then it'll run asynchronously and attempt to complete the pending uploads, performing a single upload at a time and exiting once the pending upload queue has been completed.
