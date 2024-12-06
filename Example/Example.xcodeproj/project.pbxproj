@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5BB01A312D039E1D00C1338C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5BB01A302D039E1D00C1338C /* Info.plist */; };
 		B4B7F0E72B17F82100A44315 /* HVCaptureSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B4B7F0E62B17F82100A44315 /* HVCaptureSDK */; };
 		B4B7F0EA2B17F88000A44315 /* HVCaptureSDK in Frameworks */ = {isa = PBXBuildFile; productRef = B4B7F0E92B17F88000A44315 /* HVCaptureSDK */; };
 		B4C6AE932AF546B200A68766 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6AE922AF546B200A68766 /* ExampleApp.swift */; };
@@ -16,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A878E652CD4A4E4008FAE00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5BB01A302D039E1D00C1338C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4C6AE8F2AF546B200A68766 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4C6AE922AF546B200A68766 /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; };
 		B4C6AE942AF546B200A68766 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,12 +59,12 @@
 		B4C6AE912AF546B200A68766 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				0A878E652CD4A4E4008FAE00 /* Info.plist */,
 				B4C6AE922AF546B200A68766 /* ExampleApp.swift */,
 				B4C6AE942AF546B200A68766 /* ContentView.swift */,
 				B4C6AE962AF546B300A68766 /* Assets.xcassets */,
 				B4C6AE982AF546B300A68766 /* Example.entitlements */,
 				B4C6AE992AF546B300A68766 /* Preview Content */,
+				5BB01A302D039E1D00C1338C /* Info.plist */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -150,6 +151,7 @@
 			files = (
 				B4C6AE9B2AF546B300A68766 /* Preview Assets.xcassets in Resources */,
 				B4C6AE972AF546B300A68766 /* Assets.xcassets in Resources */,
+				5BB01A312D039E1D00C1338C /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
