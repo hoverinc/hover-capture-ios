@@ -203,7 +203,7 @@ struct FooView: View {
                     // check if we have a listener for the job already, so we don't make duplicate listeners each time the view is created
                     if jobCancellables[jobInfo.identifier] == nil {
                         let cancellable = HVPartnerSDK.sharedInstance.getJobStateObservable(for: jobInfo.identifier).sink(receiveValue: { (jobState: JobStatus) in
-                            // NOTE: you can t ake various actions here based on the status change
+                            // NOTE: you can take various actions here based on the status change
                             if case let .uploadProgress(_, uploadStatus) = jobState {
                                 print("Job@State: \(jobState) --> File@State: \(String(describing: uploadStatus))")
                             } else if case let .error(_, error) = jobState {
