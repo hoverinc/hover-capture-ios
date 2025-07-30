@@ -15,11 +15,11 @@ The HOVER Capture iOS SDK provides a user flow for capturing and submitting 3D s
 
 ### Swift Package Manager
 
-The HOVER Capture iOS SDK is distributed using Swift Package Manager. You may integrate it using Xcode or a `Package.swift` file. 
+The HOVER Capture iOS SDK is distributed using Swift Package Manager. You may integrate it using Xcode or a `Package.swift` file.
 
 <details>
 <summary>Xcode</summary>
- 
+
 To integrate the SDK using Xcode, perform the following steps:
 
 1. In the Xcode Project Navigator pane (on the left side), select your project.
@@ -30,18 +30,18 @@ To integrate the SDK using Xcode, perform the following steps:
 6. Click "Add Package"
 7. Select a target to add the `HVCaptureSDK` library.
 
-</details> 
+</details>
 
 <details>
 <summary>Package.swift</summary>
- 
+
 To integrate the SDK into a Swift package, add the following line to your `dependencies` array in your `Package.swift` manifest:
 
 ```swift
 .package(url: "https://github.com/hoverinc/hover-capture-ios.git", from: "2.0.0")
 ```
 
-</details> 
+</details>
 
 ## Usage
 
@@ -53,7 +53,7 @@ The SDK should be initialized as early as possible in the app lifecycle. This is
 As such, the SDK should (ideally) be initialized in host application’s `applicationDidFinishLaunching` method, so that the SDK can continue uploading any files that remain to be uploaded. This helps expedite 3D model generation, as we need all the captured images and metadata to begin the 3D reconstruction process.
 
 ```swift
-import HVCaptureSDK 
+import HVCaptureSDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
     // ...
 
@@ -69,14 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 The host app can launch the SDK in any way it sees fit, as long as there is an active ViewController somewhere in the app. Here is one example using SwiftUI of launching the SDK capture flow on a button click:
 
 ```swift
-import HVCaptureSDK 
+import HVCaptureSDK
 import SwiftUI
 
 struct FooView: View {
     let jobInfo: CaptureJobInformation
     let sessionSettings: HVCameraSettings
 
-    // ... populate settings, etc. 
+    // ... populate settings, etc.
 
     var body: some View {
         Button("Start Capture") {
@@ -117,7 +117,7 @@ Note that the SDK executed asynchronously, and the task that calls ``startCaptur
 
 #### Cancelling a Capture Session
 
-Since we execute asynchronously, within a Swift ``Task``, we also honor its cancellation functionality and stop the capture session and capture flow UI if the task is cancelled. 
+Since we execute asynchronously, within a Swift ``Task``, we also honor its cancellation functionality and stop the capture session and capture flow UI if the task is cancelled.
 
 ```swift
 let captureTask = Task {
@@ -148,9 +148,8 @@ Notable changes to the SDK across recent versions. The format below is based on 
 # 2.4.0 2025-07-29
 
 ### Changed
-* Fix deprecated version of actions/upload-artifact
-* Fix git action to create the documentation
-* Fix action deploy pages version
+* Miscellaneous Improvements
+
 
 # 2.2.1 2025-07-21
 
